@@ -32,13 +32,11 @@ light_control:
       red: 0
       green: 255
       blue: 0
-      alpha: 255
   - room: LczCurve
     color:
       red: 0
       green: 255
       blue: 0
-      alpha: 255
   # What Zones should have what Color, See Zone Example Config for the Format (If empty it will be ignored)
   zones: []
 ```
@@ -58,11 +56,9 @@ light_control:
       red: 0
       green: 255
       blue: 0
-      alpha: 255
   - zone: HeavyContainment
     color:
       red: 0
       green: 255
       blue: 0
-      alpha: 255
 ```

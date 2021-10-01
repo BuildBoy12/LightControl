@@ -10,7 +10,7 @@ namespace LightControl
     {
         public override string Name => "Light Control";
         public override string Author => "Marco15453";
-        public override Version Version => new Version(1, 1, 0);
+        public override Version Version => new Version(1, 2, 0);
         public override Version RequiredExiledVersion => new Version(3, 0, 0);
 
         private EventHandler eventHandler;
@@ -18,17 +18,17 @@ namespace LightControl
         public override void OnEnabled()
         {
             eventHandler = new EventHandler(this);
-            Server.RoundStarted += eventHandler.onRoundStarted;
-            Warhead.Stopping += eventHandler.onWarheadStopping;
-            Warhead.Detonated += eventHandler.onWarheadDetonated;
+            Server.RoundStarted += eventHandler.OnRoundStarted;
+            Warhead.Stopping += eventHandler.OnWarheadStopping;
+            Warhead.Detonated += eventHandler.OnWarheadDetonated;
             base.OnEnabled();
         }
 
         public override void OnDisabled()
         {
-            Server.RoundStarted -= eventHandler.onRoundStarted;
-            Warhead.Stopping -= eventHandler.onWarheadStopping;
-            Warhead.Detonated -= eventHandler.onWarheadDetonated;
+            Server.RoundStarted -= eventHandler.OnRoundStarted;
+            Warhead.Stopping -= eventHandler.OnWarheadStopping;
+            Warhead.Detonated -= eventHandler.OnWarheadDetonated;
             eventHandler = null;
             base.OnDisabled();
         }
