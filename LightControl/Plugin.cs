@@ -23,22 +23,38 @@ namespace LightControl
                 Log.Error("ZoneType Surface detected! This plugin will not be enabled due to Exiled or Base Game bug.");
                 return;
             }
-
-            eventHandler = new EventHandler(this);
-            Server.RoundStarted += eventHandler.OnRoundStarted;
-            Warhead.Stopping += eventHandler.OnWarheadStopping;
-            Warhead.Detonated += eventHandler.OnWarheadDetonated;
+            registerEvents();
             base.OnEnabled();
         }
 
         public override void OnDisabled()
         {
-            if (!checkConfig()) return;
-            Server.RoundStarted -= eventHandler.OnRoundStarted;
-            Warhead.Stopping -= eventHandler.OnWarheadStopping;
-            Warhead.Detonated -= eventHandler.OnWarheadDetonated;
-            eventHandler = null;
+            unregisterEvents();
             base.OnDisabled();
+        }
+
+        private void registerEvents()
+        {
+            eventHandler = new EventHandler(this);
+
+            // Server
+            Server.RoundStarted += eventHandler.OnRoundStarted;
+
+            // Warhead
+            Warhead.Stopping += eventHandler.OnWarheadStopping;
+            Warhead.Detonated += eventHandler.OnWarheadDetonated;
+        }
+
+        private void unregisterEvents()
+        {
+            // Server
+            Server.RoundStarted += eventHandler.OnRoundStarted;
+
+            // Warhead
+            Warhead.Stopping += eventHandler.OnWarheadStopping;
+            Warhead.Detonated += eventHandler.OnWarheadDetonated;
+
+            eventHandler = null;
         }
 
         private bool checkConfig()
