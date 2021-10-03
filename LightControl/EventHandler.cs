@@ -1,6 +1,5 @@
 ﻿using Exiled.API.Enums;
 using Exiled.API.Features;
-using System;
 using System.Linq;
 using UnityEngine;
 using Exiled.Events.EventArgs;
