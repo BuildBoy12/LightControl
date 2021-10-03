@@ -1,6 +1,8 @@
 # Light Control
 A simple EXILED Plugin to set default color for certain rooms and/or zones
 
+**SURFACE ZONE DOESN'T WORK AN WILL TROW AN ERROR**
+
 # Config
 Name | Type | Description | Default
 ---- | ---- | ----------- | -------
