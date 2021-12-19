@@ -1,3 +1,4 @@
+# **THIS PLUGIN HAS BEEN ARCHIVED**
 # Light Control
 A simple EXILED Plugin to set default color for certain rooms and/or zones
 
