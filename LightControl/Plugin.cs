@@ -10,8 +10,8 @@ namespace LightControl
     using System;
     using Exiled.API.Enums;
     using Exiled.API.Features;
-    using Server = Exiled.Events.Handlers.Server;
-    using Warhead = Exiled.Events.Handlers.Warhead;
+    using ServerHandlers = Exiled.Events.Handlers.Server;
+    using WarheadHandlers = Exiled.Events.Handlers.Warhead;
 
     /// <summary>
     /// The main plugin class.
@@ -21,16 +21,10 @@ namespace LightControl
         private EventHandler eventHandler;
 
         /// <inheritdoc />
-        public override string Name => "Light Control";
+        public override string Author => "Build";
 
         /// <inheritdoc />
-        public override string Author => "Marco15453";
-
-        /// <inheritdoc />
-        public override Version Version => new Version(1, 4, 0);
-
-        /// <inheritdoc />
-        public override Version RequiredExiledVersion => new Version(5, 0, 0);
+        public override Version RequiredExiledVersion { get; } = new Version(5, 0, 0);
 
         /// <inheritdoc />
         public override void OnEnabled()
@@ -43,24 +37,21 @@ namespace LightControl
 
             eventHandler = new EventHandler(this);
 
-            // Server
-            Server.RoundStarted += eventHandler.OnRoundStarted;
+            ServerHandlers.RoundStarted += eventHandler.OnRoundStarted;
 
-            // Warhead
-            Warhead.Stopping += eventHandler.OnStopping;
-            Warhead.Detonated += eventHandler.OnDetonated;
+            WarheadHandlers.Stopping += eventHandler.OnStopping;
+            WarheadHandlers.Detonated += eventHandler.OnDetonated;
 
             base.OnEnabled();
         }
 
+        /// <inheritdoc />
         public override void OnDisabled()
         {
-            // Server
-            Server.RoundStarted += eventHandler.OnRoundStarted;
+            ServerHandlers.RoundStarted += eventHandler.OnRoundStarted;
 
-            // Warhead
-            Warhead.Stopping += eventHandler.OnStopping;
-            Warhead.Detonated += eventHandler.OnDetonated;
+            WarheadHandlers.Stopping += eventHandler.OnStopping;
+            WarheadHandlers.Detonated += eventHandler.OnDetonated;
 
             eventHandler = null;
 
