@@ -1,66 +1,80 @@
-﻿using Exiled.API.Enums;
-using Exiled.API.Features;
-using System;
-
-using Server = Exiled.Events.Handlers.Server;
-using Warhead = Exiled.Events.Handlers.Warhead;
+﻿// -----------------------------------------------------------------------
+// <copyright file="Plugin.cs" company="Build">
+// Copyright (c) Build. All rights reserved.
+// Licensed under the CC BY-SA 3.0 license.
+// </copyright>
+// -----------------------------------------------------------------------
 
 namespace LightControl
 {
+    using System;
+    using Exiled.API.Enums;
+    using Exiled.API.Features;
+    using Server = Exiled.Events.Handlers.Server;
+    using Warhead = Exiled.Events.Handlers.Warhead;
+
+    /// <summary>
+    /// The main plugin class.
+    /// </summary>
     public class Plugin : Plugin<Config>
     {
-        public override string Name => "Light Control";
-        public override string Author => "Marco15453";
-        public override Version Version => new Version(1, 3, 0);
-        public override Version RequiredExiledVersion => new Version(3, 0, 0);
-
         private EventHandler eventHandler;
 
+        /// <inheritdoc />
+        public override string Name => "Light Control";
+
+        /// <inheritdoc />
+        public override string Author => "Marco15453";
+
+        /// <inheritdoc />
+        public override Version Version => new Version(1, 4, 0);
+
+        /// <inheritdoc />
+        public override Version RequiredExiledVersion => new Version(5, 0, 0);
+
+        /// <inheritdoc />
         public override void OnEnabled()
         {
-            if(!checkConfig())
+            if (!CheckConfig())
             {
                 Log.Error("ZoneType Surface detected! This plugin will not be enabled due to Exiled or Base Game bug.");
                 return;
             }
-            registerEvents();
-            base.OnEnabled();
-        }
 
-        public override void OnDisabled()
-        {
-            unregisterEvents();
-            base.OnDisabled();
-        }
-
-        private void registerEvents()
-        {
             eventHandler = new EventHandler(this);
 
             // Server
             Server.RoundStarted += eventHandler.OnRoundStarted;
 
             // Warhead
-            Warhead.Stopping += eventHandler.OnWarheadStopping;
-            Warhead.Detonated += eventHandler.OnWarheadDetonated;
+            Warhead.Stopping += eventHandler.OnStopping;
+            Warhead.Detonated += eventHandler.OnDetonated;
+
+            base.OnEnabled();
         }
 
-        private void unregisterEvents()
+        public override void OnDisabled()
         {
             // Server
             Server.RoundStarted += eventHandler.OnRoundStarted;
 
             // Warhead
-            Warhead.Stopping += eventHandler.OnWarheadStopping;
-            Warhead.Detonated += eventHandler.OnWarheadDetonated;
+            Warhead.Stopping += eventHandler.OnStopping;
+            Warhead.Detonated += eventHandler.OnDetonated;
 
             eventHandler = null;
+
+            base.OnDisabled();
         }
 
-        private bool checkConfig()
+        private bool CheckConfig()
         {
-            foreach((ZoneType type, Colors color) in Config.Zones)
-                if (type == ZoneType.Surface) return false;
+            foreach ((ZoneType type, _) in Config.Zones)
+            {
+                if (type == ZoneType.Surface)
+                    return false;
+            }
+
             return true;
         }
     }
